@@ -1,0 +1,23 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      #this  . shws that you want to pull all the files from the current working WORKDIR
+      #if your docker file would have been called Dockerfile then you would just need to put a . after build instead of giving the context
+      #and the name of the docker file
+      dockerfile: Dockerfile.dev # you need to so this before running docker-compose up because your  docker file is called
+      #Dockerfile.dev instead of Dockerfile
+    ports:
+      - "3003:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"]
